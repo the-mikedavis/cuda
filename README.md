@@ -4,7 +4,7 @@
 - [ ] create dataset
 - [ ] algorithm
     - [ ] initial configuration
-    - [ ] get nearest neighborl
+    - [ ] get nearest neighbor
     - [ ] calculate error
     - [ ] optimize
     - [ ] update configuration
