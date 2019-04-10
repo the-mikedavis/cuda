@@ -24,7 +24,7 @@ def generate_transformation():
 
 def generate_dataset(transformation):
     "Randomly generates a dataset."
-    points = 3
+    points = 100
     scale = 10
     target = np.matrix([np.random.random(points) * scale,
                         np.random.random(points) * scale,
