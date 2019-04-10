@@ -1,4 +1,4 @@
-#! /usr/bin/env python3
+#! /usr/bin/env python2
 
 import random
 import argparse
@@ -9,6 +9,7 @@ matplotlib.use("pdf")
 
 #optimization
 import gaussnewton as gn
+import nearest_neighbor as nn
 
 def generate_transformation():
     scale = 20
@@ -37,13 +38,6 @@ def show_dataset(dataset, name="dataset"):
     plt.title(name)
     plt.savefig(name + ".png")
     plt.show()
-
-def nearest_neighbors(dataset):
-    "Find the nearest neighbors for each point in a and b"
-    return None
-
-def calculate_error(dataset, nearest_neighbors):
-    return None
 
 def optimize(dataset, nearest_neighbors=None, error=None):
     a, b = dataset
@@ -75,11 +69,3 @@ if __name__ == '__main__':
     opt_dataset = optimize(dataset)
 
     show_dataset(opt_dataset)
-
-    # while True:
-        # nn = nearest_neighbors(dataset)
-        # error = calculate_error(dataset, nn)
-        # optimization = optimize(dataset, nn, error)
-        # TODO adjust the dataset by the optimization
-        # show_dataset(updated_dataset, name="dataset_%d"%iteration)
-    # show_dataset(solution, name="final")
