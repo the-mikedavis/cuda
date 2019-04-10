@@ -2,7 +2,6 @@
 
 """An implementation of the Gauss-Newton algorithm."""
 import numpy as np
-from matplotlib import pyplot as plt
 
 def transform(xn, X):
     t = np.matrix([[np.cos(xn[2]), -np.sin(xn[2]), xn[0]], [np.sin(xn[2]), np.cos(xn[2]), xn[1]], [0, 0, 1]])
