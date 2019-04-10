@@ -7,6 +7,9 @@ import matplotlib
 import matplotlib.pyplot as plt
 matplotlib.use("pdf")
 
+#optimization
+import gaussnewton as gn
+
 def generate_transformation():
     scale = 20
     degrees = np.random.randint(0, 360)
@@ -42,8 +45,12 @@ def nearest_neighbors(dataset):
 def calculate_error(dataset, nearest_neighbors):
     return None
 
-def optimize(dataset, nearest_neighbors, error):
-    return None
+def optimize(dataset, nearest_neighbors=None, error=None):
+    a, b = dataset
+    Y_match, sol, its = gn.solve(a, b)
+    print("  Iterations : {}".format(its))
+    print("  Calculated : {}".format(sol))
+    return (a, Y_match)
 
 if __name__ == '__main__':
     random_seed = random.randint(1, 262571)
@@ -64,6 +71,10 @@ if __name__ == '__main__':
     dataset = generate_dataset(transformation)
 
     show_dataset(dataset)
+
+    opt_dataset = optimize(dataset)
+
+    show_dataset(opt_dataset)
 
     # while True:
         # nn = nearest_neighbors(dataset)
