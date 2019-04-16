@@ -2,6 +2,13 @@
 
 """An implementation of the Gauss-Newton algorithm."""
 import numpy as np
+import nearest_neighbor as nn
+
+def makeHomogeneous(Z):
+    Z = Z.reshape((2, Z.size/2))
+    Z = np.vstack((Z, np.ones(Z.shape[1])))
+
+    return Z
 
 def transform(xn, X):
     t = np.matrix([[np.cos(xn[2]), -np.sin(xn[2]), xn[0]], [np.sin(xn[2]), np.cos(xn[2]), xn[1]], [0, 0, 1]])
@@ -27,7 +34,13 @@ def jacobian(xn, Y):
 
 def residuals(xn, X, Y):
     Y = transform(xn, Y)
+    Y = makeHomogeneous(Y)
+    N = nn.nearest_neighbor((Y, X))
+    print("NN")
+    print(N)
+    Y = Y[:-1,:]
     X = X[:-1,:]
+    Y = Y[:,N.astype(int)]
     return X.reshape((X.size,1)) - Y.reshape((Y.size,1)) # N x 1
 
 def solve(X, Y, x0=[-0.5,1.0,0.1], tol = 1e-6, maxits = 256):
@@ -45,6 +58,6 @@ def solve(X, Y, x0=[-0.5,1.0,0.1], tol = 1e-6, maxits = 256):
         i  += 1
 
     Y = transform(xn, Y)
-    Y = Y.reshape((2, Y.size/2))
-    Y = np.vstack((Y, np.ones(Y.shape[1])))
+    Y = makeHomogeneous(Y)
     return Y, xn, i
+
