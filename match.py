@@ -4,12 +4,12 @@ import random
 import argparse
 import numpy as np
 import matplotlib
-import matplotlib.pyplot as plt
-matplotlib.use("pdf")
+# import matplotlib.pyplot as plt
+# matplotlib.use("pdf")
 
 #optimization
 import gaussnewton as gn
-import nearest_neighbor as nn
+import parallel_nearest_neighbor as nn
 
 def generate_transformation():
     scale = 20
@@ -24,10 +24,10 @@ def generate_transformation():
 
 def generate_dataset(transformation):
     "Randomly generates a dataset."
-    points = 100
+    points = 10
     scale = 10
-    target = np.matrix([np.random.random(points) * scale,
-                        np.random.random(points) * scale,
+    target = np.matrix([np.random.random(points).astype(np.float64) * scale,
+                        np.random.random(points).astype(np.float64) * scale,
                         np.ones(points)])
     return (target, transformation * target)
 
@@ -64,8 +64,10 @@ if __name__ == '__main__':
 
     dataset = generate_dataset(transformation)
 
-    show_dataset(dataset)
+    print(nn.nearest_neighbor(dataset))
 
-    opt_dataset = optimize(dataset)
+    # show_dataset(dataset)
 
-    show_dataset(opt_dataset)
+    # opt_dataset = optimize(dataset)
+
+    # show_dataset(opt_dataset)
