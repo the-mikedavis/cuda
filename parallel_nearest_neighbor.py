@@ -29,8 +29,8 @@ __global__ void nn(int *dest, double *a, double *b, int n) {
   int min_index = 0;
   int j;
 
-  for (j = 0; j < n; j++) {
-    dist = hypotf(b[j] - a[i], b[j] - a[i + 1]);
+  for (j = 0; j < 2 * n; j += 2) {
+    dist = hypotf(b[j] - a[i], b[j + 1] - a[i + 1]);
     if (dist < min_value) {
       min_value = dist;
       min_index = j;
