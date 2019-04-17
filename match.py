@@ -4,8 +4,8 @@ import random
 import argparse
 import numpy as np
 import matplotlib
-import matplotlib.pyplot as plt
-matplotlib.use("pdf")
+# import matplotlib.pyplot as plt
+# matplotlib.use("pdf")
 
 #optimization
 import gaussnewton as gn
@@ -26,8 +26,8 @@ def generate_dataset(transformation):
     "Randomly generates a dataset."
     points = 10
     scale = 10
-    target = np.matrix([np.random.random(points) * scale,
-                        np.random.random(points) * scale,
+    target = np.matrix([np.random.random(points).astype(np.float64) * scale,
+                        np.random.random(points).astype(np.float64) * scale,
                         np.ones(points)])
     return (target, transformation * target)
 
