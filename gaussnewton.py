@@ -3,7 +3,6 @@
 """An implementation of the Gauss-Newton algorithm."""
 import numpy as np
 import parallel_nearest_neighbor as nn
-import match
 
 def makeHomogeneous(Z):
     Z = Z.reshape((2, Z.size/2))
@@ -44,13 +43,16 @@ def residuals(xn, X, Y):
 
     return X.reshape((X.size,1)) - Y.reshape((Y.size,1)) # N x 1
 
-def solve(X, Y, x0=[-0.5,1.0,0.1], tol = 1e-4, maxits = 1024):
+def solve(X, Y, x0=[-0.5,1.0,0.1], tol = 1e-4, maxits = 30):
     """Gauss-Newton algorithm for solving nonlinear least squares problems.
     """
     dx = np.ones(len(x0))   # Correction vector
     xn = np.array(x0)       # Approximation of solution
 
     i = 0
+    r = [] # store result in the array
+    r.append(Y)
+
     while (i < maxits) and (np.absolute(np.linalg.norm(dx)/np.linalg.norm(X)) > tol):
 
         # correction = pinv(jacobian) . residual vector
@@ -58,11 +60,9 @@ def solve(X, Y, x0=[-0.5,1.0,0.1], tol = 1e-4, maxits = 1024):
         dx = np.squeeze(np.asarray(dx))
         xn = np.add(xn, dx)            # x_{n + 1} = x_n + dx_n
         i  += 1
-        #Y = transform(xn, Y)
-        #Y = makeHomogeneous(Y)
-        #match.show_dataset((X, Y))
+        Y = transform(xn, Y)
+        Y = makeHomogeneous(Y)
+        r.append(Y)
 
-    Y = transform(xn, Y)
-    Y = makeHomogeneous(Y)
-    return Y, xn, i
+    return r, Y, xn, i
 

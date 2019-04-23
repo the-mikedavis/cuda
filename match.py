@@ -24,7 +24,7 @@ def generate_transformation():
 
 def generate_dataset(transformation):
     "Randomly generates a dataset."
-    points = 10
+    points = 100
     scale = 100
     target = np.matrix([np.random.random(points).astype(np.float64) * scale,
                         np.random.random(points).astype(np.float64) * scale,
@@ -32,21 +32,32 @@ def generate_dataset(transformation):
     #return (target[:,0:points/2], transformation * target[:,points/8:(points/8 + points/2)])
     return (target, transformation * target)
 
-def show_dataset(dataset, name="dataset"):
-    a, b = dataset
-    plt.scatter(np.squeeze(np.asarray(a[0, :])), np.squeeze(np.asarray(a[1, :])))
-    plt.scatter(np.squeeze(np.asarray(b[0, :])), np.squeeze(np.asarray(b[1, :])))
+def show_dataset(dataset, name="dataset", subplot = False):
+
+    if subplot:
+        a, b, r = dataset
+        for i in range(4):
+            plt.subplot(2, 2, i+1)
+            plt.scatter(np.squeeze(np.asarray(a[0, :])), np.squeeze(np.asarray(a[1, :])))
+            plt.scatter(np.squeeze(np.asarray(r[i][0, :])), np.squeeze(np.asarray(r[i][1, :])))
+            plt.axis((-200, 200, -200, 200))
+    else:
+        a, b = dataset
+        plt.scatter(np.squeeze(np.asarray(a[0, :])), np.squeeze(np.asarray(a[1, :])))
+        plt.scatter(np.squeeze(np.asarray(b[0, :])), np.squeeze(np.asarray(b[1, :])))
+        plt.axis((-200, 200, -200, 200))
+
     plt.title(name)
     plt.savefig(name + ".png")
-    plt.axis((-200, 200, -200, 200))
     plt.show()
+
 
 def optimize(dataset, nearest_neighbors=None, error=None):
     a, b = dataset
-    Y_match, sol, its = gn.solve(a, b)
+    r, Y_match, sol, its = gn.solve(a, b)
     print("  Iterations : {}".format(its))
     print("  Calculated : {}".format(sol))
-    return (a, Y_match)
+    return (a, Y_match, r)
 
 if __name__ == '__main__':
     random_seed = random.randint(1, 262571)
@@ -70,4 +81,4 @@ if __name__ == '__main__':
 
     opt_dataset = optimize(dataset)
 
-    show_dataset(opt_dataset)
+    show_dataset(opt_dataset, name = "result", subplot = True)
