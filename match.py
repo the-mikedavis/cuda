@@ -24,13 +24,13 @@ def generate_transformation():
 
 def generate_dataset(transformation):
     "Randomly generates a dataset."
-    points = 1000
+    points = 10
     scale = 100
     target = np.matrix([np.random.random(points).astype(np.float64) * scale,
                         np.random.random(points).astype(np.float64) * scale,
                         np.ones(points)])
-    return (target[:,0:points/2], transformation * target[:,points/8:(points/8 + points/2)])
-    #return (target, transformation * target)
+    #return (target[:,0:points/2], transformation * target[:,points/8:(points/8 + points/2)])
+    return (target, transformation * target)
 
 def show_dataset(dataset, name="dataset"):
     a, b = dataset
@@ -65,8 +65,6 @@ if __name__ == '__main__':
     print(transformation)
 
     dataset = generate_dataset(transformation)
-
-    print(nn.nearest_neighbor(dataset))
 
     show_dataset(dataset)
 

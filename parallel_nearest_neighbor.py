@@ -33,7 +33,7 @@ __global__ void nn(int *dest, double *a, double *b, int n) {
     dist = hypotf(b[j] - a[i], b[j + 1] - a[i + 1]);
     if (dist < min_value) {
       min_value = dist;
-      min_index = j;
+      min_index = j/2;
     }
   }
 
@@ -47,8 +47,9 @@ parallel_euclidean_dist = mod.get_function("euclidean_dist")
 def nearest_neighbor(dataset):
     a, b = dataset
     n = b.size/len(b)
-    as_xy = np.delete(a, 2, 1)
-    bs_xy = np.delete(b, 2, 1)
+    as_xy = np.delete(a, 2, 0)
+    bs_xy = np.delete(b, 2, 0)
+
     dest = np.zeros((n,)).astype(np.int32)
 
     parallel_nn(drv.Out(dest), drv.In(as_xy), drv.In(bs_xy), np.int32(n), block=(n, 1, 1), grid=(1, 1))

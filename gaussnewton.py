@@ -36,15 +36,15 @@ def jacobian(xn, Y):
 def residuals(xn, X, Y):
     Y = transform(xn, Y)
     Y = makeHomogeneous(Y)
-    N = nn.nearest_neighbor((Y, X))
-    #print("NN")
-    #print(N)
+    N = nn.nearest_neighbor((X, Y))
+
     Y = Y[:-1,:]
     X = X[:-1,:]
     Y = Y[:,N.astype(int)]
+
     return X.reshape((X.size,1)) - Y.reshape((Y.size,1)) # N x 1
 
-def solve(X, Y, x0=[-0.5,1.0,0.1], tol = 1e-6, maxits = 1024):
+def solve(X, Y, x0=[-0.5,1.0,0.1], tol = 1e-4, maxits = 1024):
     """Gauss-Newton algorithm for solving nonlinear least squares problems.
     """
     dx = np.ones(len(x0))   # Correction vector
@@ -52,14 +52,15 @@ def solve(X, Y, x0=[-0.5,1.0,0.1], tol = 1e-6, maxits = 1024):
 
     i = 0
     while (i < maxits) and (np.absolute(np.linalg.norm(dx)/np.linalg.norm(X)) > tol):
+
         # correction = pinv(jacobian) . residual vector
         dx = np.dot(np.linalg.pinv(jacobian(xn, Y)), residuals(xn, X, Y))
         dx = np.squeeze(np.asarray(dx))
         xn = np.add(xn, dx)            # x_{n + 1} = x_n + dx_n
         i  += 1
-        Y = transform(xn, Y)
-        Y = makeHomogeneous(Y)
-        match.show_dataset((X, Y))
+        #Y = transform(xn, Y)
+        #Y = makeHomogeneous(Y)
+        #match.show_dataset((X, Y))
 
     Y = transform(xn, Y)
     Y = makeHomogeneous(Y)
