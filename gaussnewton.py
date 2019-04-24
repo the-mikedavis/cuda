@@ -43,7 +43,7 @@ def residuals(xn, X, Y):
 
     return X.reshape((X.size,1)) - Y.reshape((Y.size,1)) # N x 1
 
-def solve(X, Y, x0=[-0.5,1.0,0.1], tol = 1e-4, maxits = 30):
+def solve(X, Y, x0=[-0.5,1.0,0.1], tol = 1e-4, maxits = 1024):
     """Gauss-Newton algorithm for solving nonlinear least squares problems.
     """
     dx = np.ones(len(x0))   # Correction vector

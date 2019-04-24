@@ -5,7 +5,7 @@ import argparse
 import numpy as np
 import matplotlib
 import matplotlib.pyplot as plt
-matplotlib.use("pdf")
+#matplotlib.use("pdf")
 
 #optimization
 import gaussnewton as gn
@@ -41,13 +41,14 @@ def show_dataset(dataset, name="dataset", subplot = False):
             plt.scatter(np.squeeze(np.asarray(a[0, :])), np.squeeze(np.asarray(a[1, :])))
             plt.scatter(np.squeeze(np.asarray(r[i][0, :])), np.squeeze(np.asarray(r[i][1, :])))
             plt.axis((-200, 200, -200, 200))
+            plt.axis('off')
     else:
         a, b = dataset
         plt.scatter(np.squeeze(np.asarray(a[0, :])), np.squeeze(np.asarray(a[1, :])))
         plt.scatter(np.squeeze(np.asarray(b[0, :])), np.squeeze(np.asarray(b[1, :])))
         plt.axis((-200, 200, -200, 200))
+        plt.title(name)
 
-    plt.title(name)
     plt.savefig(name + ".png")
     plt.show()
 
